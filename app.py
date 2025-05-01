@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 import datetime
+import pytz
 
 st.set_page_config(
     page_title = 'デジタルおみくじ',
@@ -9,13 +10,16 @@ st.set_page_config(
     layout="centered"
     )
 
-# 今日の日付を取得
-today = datetime.date.today()
+# 日本のタイムゾーンを取得
+japan_timezone = pytz.timezone('Asia/Tokyo')
+
+# 日本の現在の日付を取得
+japan_today = datetime.datetime.now(japan_timezone).date()
 # 曜日の日本語表記
 weekday_jp = ["月", "火", "水", "木", "金", "土", "日"]
-weekday = weekday_jp[today.weekday()]
+weekday = weekday_jp[japan_today.weekday()]
 # 日付を表示
-st.markdown(f"### {today.year}年{today.month}月{today.day}日({weekday})")
+st.markdown(f"### {japan_today.year}年{japan_today.month}月{japan_today.day}日({weekday})")
 st.write(' ')
 
 omikuji_df = pd.read_csv('omikuji.csv', encoding='utf-8') 
@@ -59,5 +63,5 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("##### バージョン情報")
-    st.markdown("デジタルおみくじ v1.0.0")
+    st.markdown("デジタルおみくじ v1.1.0")
     st.markdown("©2025 ojizou003")
